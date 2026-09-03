@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Lead Console • Premium Glass</title>
+    <title>Lead Console • Premium Glass (Responsive)</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
@@ -105,10 +105,6 @@
             border-radius: 4px;
         }
 
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 0, 0, 0.28);
-        }
-
         .glass-nav {
             background: rgba(15, 23, 48, 0.78);
             backdrop-filter: blur(28px) saturate(160%);
@@ -117,21 +113,20 @@
         }
 
         .glass-sidebar {
-            background: rgba(255, 255, 255, 0.27);
+            background: rgba(255, 255, 255, 0.58);
             backdrop-filter: blur(32px) saturate(180%);
             -webkit-backdrop-filter: blur(32px) saturate(180%);
             border-right: 1px solid rgba(255, 255, 255, 0.45);
             box-shadow: 8px 0 40px rgba(0, 0, 0, 0.06);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .card-glass {
-            background: rgba(255, 255, 255, 0.38);
+            background: rgba(255, 255, 255, 0.52);
             backdrop-filter: blur(24px) saturate(160%);
             -webkit-backdrop-filter: blur(24px) saturate(160%);
             border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow:
-                0 8px 32px rgba(31, 38, 135, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
             border-radius: 18px;
             overflow: hidden;
             transition: all 0.3s ease;
@@ -139,9 +134,7 @@
 
         .card-glass:hover {
             background: rgba(255, 255, 255, 0.68);
-            box-shadow:
-                0 16px 48px rgba(31, 38, 135, 0.14),
-                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+            box-shadow: 0 16px 48px rgba(31, 38, 135, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7);
             transform: translateY(-2px);
         }
 
@@ -186,6 +179,58 @@
             border-radius: 14px;
             overflow: hidden;
         }
+
+        /* ========== RESPONSIVE ========== */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 40;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @media (max-width: 991.98px) {
+            .glass-sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                z-index: 50;
+                transform: translateX(-100%);
+                width: 300px !important;
+            }
+
+            .glass-sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-badges {
+                display: none !important;
+            }
+
+            .nav-doc-btn span:not(.material-symbols-outlined) {
+                display: none;
+            }
+
+            .nav-doc-btn {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+        }
     </style>
 </head>
 
@@ -196,33 +241,43 @@
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
 
+    <!-- Sidebar Overlay (Mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <!-- TOP NAV -->
-    <nav class="relative z-50 flex justify-between items-center w-full px-6 h-[64px] glass-nav flex-shrink-0 shadow-xl">
-        <div class="flex items-center gap-5">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center shadow-inner">
-                    <span class="material-symbols-outlined text-white/90 text-[19px]">workspaces</span>
+    <nav class="relative z-50 flex justify-between items-center w-full px-4 sm:px-6 h-[64px] glass-nav flex-shrink-0 shadow-xl">
+        <div class="flex items-center gap-3 sm:gap-5 min-w-0">
+            <!-- Hamburger (Mobile) -->
+            <button id="menuBtn" class="lg:hidden p-2 -ml-1 rounded-lg text-white/80 hover:bg-white/10 hover:text-white transition-colors">
+                <span class="material-symbols-outlined text-[24px]">menu</span>
+            </button>
+
+            <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-white/15 flex items-center justify-center shadow-inner flex-shrink-0">
+                    <span class="material-symbols-outlined text-white/90 text-[18px] sm:text-[19px]">workspaces</span>
                 </div>
-                <div class="flex flex-col leading-none">
-                    <span class="eyebrow text-white/45">LEAD · 25 AUG 2026</span>
-                    <span class="font-display text-[19px] font-semibold text-white mt-0.5">Yuktesh Jadhav</span>
+                <div class="flex flex-col leading-none min-w-0">
+                    <span class="eyebrow text-white/45 hidden xs:block">LEAD · 25 AUG 2026</span>
+                    <span class="font-display text-[16px] sm:text-[19px] font-semibold text-white mt-0.5 truncate">Yuktesh Jadhav</span>
                 </div>
             </div>
-            <div class="flex gap-2 ml-2 pl-5 border-l border-white/15">
-                <span class="flex items-center gap-1.5 bg-white/12 text-white px-3 py-1.5 rounded-lg font-body text-[12.5px] font-medium backdrop-blur-sm">
+
+            <div class="nav-badges hidden md:flex gap-2 ml-2 pl-5 border-l border-white/15">
+                <span class="flex items-center gap-1.5 bg-white/12 text-white px-3 py-1.5 rounded-lg font-body text-[12.5px] font-medium backdrop-blur-sm whitespace-nowrap">
                     <span class="material-symbols-outlined text-[15px] text-emerald-300">check_circle</span>
                     Eligible · ₹5,000
                 </span>
-                <span class="flex items-center gap-1.5 bg-white/6 text-white/55 px-3 py-1.5 rounded-lg font-body text-[12.5px]">
+                <span class="flex items-center gap-1.5 bg-white/6 text-white/55 px-3 py-1.5 rounded-lg font-body text-[12.5px] whitespace-nowrap">
                     Incentive · ₹0
                 </span>
             </div>
         </div>
-        <div class="flex items-center gap-2">
-            <button class="flex items-center gap-2 bg-white/10 hover:bg-white/18 px-4 py-2 rounded-lg text-white font-body text-[13px] font-medium transition-all">
+
+        <div class="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+            <button class="nav-doc-btn flex items-center gap-2 bg-white/10 hover:bg-white/18 px-3 sm:px-4 py-2 rounded-lg text-white font-body text-[13px] font-medium transition-all">
                 <span class="material-symbols-outlined text-[16px]">description</span>
-                University Document
-                <span class="material-symbols-outlined text-[16px] text-white/50">expand_more</span>
+                <span class="hidden sm:inline">University Document</span>
+                <span class="material-symbols-outlined text-[16px] text-white/50 hidden sm:inline">expand_more</span>
             </button>
             <div class="flex items-center border-l border-white/15 ml-1 pl-1">
                 <button class="p-2 hover:bg-white/12 rounded-lg transition-colors text-white/70 hover:text-white" title="Apps">
@@ -238,7 +293,7 @@
     <div class="relative z-10 flex flex-1 overflow-hidden">
 
         <!-- SIDEBAR -->
-        <aside class="w-[330px] flex flex-col glass-sidebar flex-shrink-0">
+        <aside class="glass-sidebar w-[300px] lg:w-[330px] flex flex-col flex-shrink-0" id="sidebar">
             <div class="px-4 pt-4 pb-3 flex justify-between items-center border-b border-white/30">
                 <span class="font-display text-[16px] font-semibold text-ink">Pipeline Overview</span>
                 <div class="flex gap-0.5">
@@ -247,6 +302,10 @@
                     </button>
                     <button class="p-1.5 hover:bg-white/40 rounded-lg text-ink-faint hover:text-ink transition-colors">
                         <span class="material-symbols-outlined text-[17px]">add</span>
+                    </button>
+                    <!-- Close on mobile -->
+                    <button id="closeSidebarBtn" class="lg:hidden p-1.5 hover:bg-white/40 rounded-lg text-ink-faint hover:text-ink transition-colors">
+                        <span class="material-symbols-outlined text-[17px]">close</span>
                     </button>
                 </div>
             </div>
@@ -257,7 +316,6 @@
             </div>
 
             <div class="flex-1 overflow-y-auto custom-scrollbar px-3 pt-4 pb-4">
-
                 <!-- NEEDS ACTION -->
                 <div class="mb-5">
                     <div class="flex items-center gap-2 mb-2 px-1">
@@ -356,21 +414,22 @@
         </aside>
 
         <!-- MAIN -->
-        <main class="flex-1 overflow-y-auto custom-scrollbar p-5">
+        <main class="main-content flex-1 overflow-y-auto custom-scrollbar p-3 sm:p-5">
             <div class="max-w-[1440px] mx-auto">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
+                <!-- Responsive grid: 1 col mobile → 2 col tablet → 3 col desktop -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 items-start">
 
                     <!-- COLUMN 1 : Personal & Contact -->
-                    <div class="flex flex-col gap-5">
+                    <div class="flex flex-col gap-4 sm:gap-5 md:col-span-2 lg:col-span-1">
                         <div class="card-glass">
-                            <div class="px-5 py-4 border-b border-white/30 flex items-center gap-2.5">
-                                <span class="w-7 h-7 rounded-lg bg-accent-soft flex items-center justify-center">
+                            <div class="px-4 sm:px-5 py-4 border-b border-white/30 flex items-center gap-2.5">
+                                <span class="w-7 h-7 rounded-lg bg-accent-soft flex items-center justify-center flex-shrink-0">
                                     <span class="material-symbols-outlined text-accent text-[16px]">person</span>
                                 </span>
-                                <h2 class="font-display text-[16px] font-semibold text-ink">Personal &amp; Contact</h2>
+                                <h2 class="font-display text-[15px] sm:text-[16px] font-semibold text-ink">Personal &amp; Contact</h2>
                             </div>
-                            <div class="p-5 flex flex-col gap-4">
-                                <div class="grid grid-cols-2 gap-4">
+                            <div class="p-4 sm:p-5 flex flex-col gap-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div class="flex flex-col gap-1.5">
                                         <label class="font-body text-[12px] font-medium text-ink-muted">Name</label>
                                         <input class="field p-2.5 text-[13.5px] rounded-lg" type="text" />
@@ -380,7 +439,7 @@
                                         <input class="field p-2.5 text-[13.5px] rounded-lg" type="text" />
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div class="flex flex-col gap-1.5">
                                         <label class="font-body text-[12px] font-medium text-ink-muted">Last Name</label>
                                         <input class="field p-2.5 text-[13.5px] rounded-lg" type="text" />
@@ -395,7 +454,7 @@
                                     </div>
                                 </div>
 
-                                <div class="grid grid-cols-2 gap-4 bg-accent-soft/50 p-3.5 -mx-1 rounded-xl border border-accent/15">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-accent-soft/50 p-3.5 rounded-xl border border-accent/15">
                                     <div class="flex flex-col gap-1.5">
                                         <label class="font-body text-[12px] font-medium text-ink-muted">Contact 1</label>
                                         <input class="field p-2.5 text-[13.5px] rounded-lg" type="text" />
@@ -410,7 +469,7 @@
                                     <label class="font-body text-[12px] font-medium text-ink-muted">Email (Verified)</label>
                                     <input class="field p-2.5 text-[13.5px] rounded-lg bg-white/40 text-ink-faint" readonly type="email" value="Email" />
                                 </div>
-                                <div class="grid grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div class="flex flex-col gap-1.5">
                                         <label class="font-body text-[12px] font-medium text-ink-muted">Email</label>
                                         <input class="field p-2.5 text-[13.5px] rounded-lg" type="email" />
@@ -420,7 +479,7 @@
                                         <input class="field p-2.5 text-[13.5px] rounded-lg" type="date" />
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div class="flex flex-col gap-1.5">
                                         <label class="font-body text-[12px] font-medium text-ink-muted">Country</label>
                                         <select class="field p-2.5 text-[13.5px] rounded-lg">
@@ -434,7 +493,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div class="flex flex-col gap-1.5">
                                         <label class="font-body text-[12px] font-medium text-ink-muted">City</label>
                                         <select class="field p-2.5 text-[13.5px] rounded-lg">
@@ -461,23 +520,22 @@
                     </div>
 
                     <!-- COLUMN 2 -->
-                    <div class="flex flex-col gap-5">
-                        <!-- Education & Work -->
+                    <div class="flex flex-col gap-4 sm:gap-5">
                         <div class="card-glass">
-                            <div class="px-5 py-4 border-b border-white/30 flex items-center gap-2.5">
-                                <span class="w-7 h-7 rounded-lg bg-accent-soft flex items-center justify-center">
+                            <div class="px-4 sm:px-5 py-4 border-b border-white/30 flex items-center gap-2.5">
+                                <span class="w-7 h-7 rounded-lg bg-accent-soft flex items-center justify-center flex-shrink-0">
                                     <span class="material-symbols-outlined text-accent text-[16px]">school</span>
                                 </span>
-                                <h2 class="font-display text-[16px] font-semibold text-ink">Education &amp; Work</h2>
+                                <h2 class="font-display text-[15px] sm:text-[16px] font-semibold text-ink">Education &amp; Work</h2>
                             </div>
-                            <div class="p-5 flex flex-col gap-4">
+                            <div class="p-4 sm:p-5 flex flex-col gap-4">
                                 <div class="flex flex-col gap-1.5">
                                     <label class="font-body text-[12px] font-medium text-ink-muted">Qualification</label>
                                     <select class="field p-2.5 text-[13.5px] rounded-lg w-full">
                                         <option>Select</option>
                                     </select>
                                 </div>
-                                <div class="grid grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div class="flex flex-col gap-1.5">
                                         <label class="font-body text-[12px] font-medium text-ink-muted">Years of Experience</label>
                                         <select class="field p-2.5 text-[13.5px] rounded-lg">
@@ -494,16 +552,15 @@
                             </div>
                         </div>
 
-                        <!-- Opportunity -->
                         <div class="card-glass">
-                            <div class="px-5 py-4 border-b border-white/30 flex items-center gap-2.5">
-                                <span class="w-7 h-7 rounded-lg bg-accent-soft flex items-center justify-center">
+                            <div class="px-4 sm:px-5 py-4 border-b border-white/30 flex items-center gap-2.5">
+                                <span class="w-7 h-7 rounded-lg bg-accent-soft flex items-center justify-center flex-shrink-0">
                                     <span class="material-symbols-outlined text-accent text-[16px]">business_center</span>
                                 </span>
-                                <h2 class="font-display text-[16px] font-semibold text-ink">Opportunity</h2>
+                                <h2 class="font-display text-[15px] sm:text-[16px] font-semibold text-ink">Opportunity</h2>
                             </div>
-                            <div class="p-5 flex flex-col gap-4">
-                                <div class="flex flex-col gap-1.5 bg-accent-soft/50 p-3.5 -mx-1 rounded-xl border border-accent/15">
+                            <div class="p-4 sm:p-5 flex flex-col gap-4">
+                                <div class="flex flex-col gap-1.5 bg-accent-soft/50 p-3.5 rounded-xl border border-accent/15">
                                     <label class="font-body text-[12px] font-semibold text-accent">Source — Primary</label>
                                     <select class="field p-2.5 text-[13.5px] rounded-lg">
                                         <option>D.Y.Patil</option>
@@ -536,15 +593,14 @@
                             </div>
                         </div>
 
-                        <!-- Origin -->
                         <div class="card-glass">
-                            <div class="px-5 py-4 border-b border-white/30 flex items-center gap-2.5">
-                                <span class="w-7 h-7 rounded-lg bg-accent-soft flex items-center justify-center">
+                            <div class="px-4 sm:px-5 py-4 border-b border-white/30 flex items-center gap-2.5">
+                                <span class="w-7 h-7 rounded-lg bg-accent-soft flex items-center justify-center flex-shrink-0">
                                     <span class="material-symbols-outlined text-accent text-[16px]">flight_takeoff</span>
                                 </span>
-                                <h2 class="font-display text-[16px] font-semibold text-ink">Origin</h2>
+                                <h2 class="font-display text-[15px] sm:text-[16px] font-semibold text-ink">Origin</h2>
                             </div>
-                            <div class="p-5 flex flex-col gap-4">
+                            <div class="p-4 sm:p-5 flex flex-col gap-4">
                                 <div class="flex flex-col gap-1.5">
                                     <label class="font-body text-[12px] font-medium text-ink-muted">Source</label>
                                     <select class="field p-2.5 text-[13.5px] rounded-lg">
@@ -568,16 +624,15 @@
                     </div>
 
                     <!-- COLUMN 3 -->
-                    <div class="flex flex-col gap-5 h-full">
-                        <!-- Action & Disposition -->
+                    <div class="flex flex-col gap-4 sm:gap-5 md:col-span-2 lg:col-span-1">
                         <div class="card-glass">
-                            <div class="px-5 py-4 border-b border-white/30 flex items-center gap-2.5">
-                                <span class="w-7 h-7 rounded-lg bg-accent-soft flex items-center justify-center">
+                            <div class="px-4 sm:px-5 py-4 border-b border-white/30 flex items-center gap-2.5">
+                                <span class="w-7 h-7 rounded-lg bg-accent-soft flex items-center justify-center flex-shrink-0">
                                     <span class="material-symbols-outlined text-accent text-[16px]">call_log</span>
                                 </span>
-                                <h2 class="font-display text-[16px] font-semibold text-ink">Action &amp; Disposition</h2>
+                                <h2 class="font-display text-[15px] sm:text-[16px] font-semibold text-ink">Action &amp; Disposition</h2>
                             </div>
-                            <div class="p-5 flex flex-col gap-4">
+                            <div class="p-4 sm:p-5 flex flex-col gap-4">
                                 <div class="flex flex-col gap-1.5">
                                     <label class="font-body text-[12px] font-medium text-ink-muted">Lead Date</label>
                                     <input class="field p-2.5 text-[13.5px] rounded-lg bg-white/40 text-ink-faint" readonly type="text" />
@@ -594,7 +649,7 @@
                                         <option>Prospect</option>
                                     </select>
                                 </div>
-                                <div class="grid grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div class="flex flex-col gap-1.5">
                                         <label class="font-body text-[12px] font-medium text-ink-muted">Date</label>
                                         <div class="field flex items-center rounded-lg px-2.5">
@@ -614,7 +669,7 @@
                                     <label class="font-body text-[12px] font-medium text-ink-muted">Remark</label>
                                     <input class="field p-2.5 text-[13.5px] rounded-lg" type="text" />
                                 </div>
-                                <div class="flex gap-3 mt-1">
+                                <div class="flex flex-col sm:flex-row gap-3 mt-1">
                                     <button class="flex-1 bg-accent text-white px-6 py-2.5 rounded-lg font-body text-[14px] font-semibold hover:bg-accent/90 transition-colors shadow-md flex items-center justify-center gap-2">
                                         <span class="material-symbols-outlined text-[17px]">save</span>
                                         Update
@@ -626,11 +681,10 @@
                             </div>
                         </div>
 
-                        <!-- History Log -->
-                        <div class="card-glass flex flex-col flex-1 min-h-[260px]">
-                            <div class="px-5 py-4 border-b border-white/30 flex justify-between items-center">
-                                <h2 class="font-display text-[16px] font-semibold text-ink flex items-center gap-2.5">
-                                    <span class="w-7 h-7 rounded-lg bg-white/40 flex items-center justify-center">
+                        <div class="card-glass flex flex-col flex-1 min-h-[220px] sm:min-h-[260px]">
+                            <div class="px-4 sm:px-5 py-4 border-b border-white/30 flex justify-between items-center">
+                                <h2 class="font-display text-[15px] sm:text-[16px] font-semibold text-ink flex items-center gap-2.5">
+                                    <span class="w-7 h-7 rounded-lg bg-white/40 flex items-center justify-center flex-shrink-0">
                                         <span class="material-symbols-outlined text-ink-muted text-[16px]">history</span>
                                     </span>
                                     History Log
@@ -640,7 +694,7 @@
                                 </button>
                             </div>
                             <div class="p-4 flex-1">
-                                <textarea class="field w-full h-full min-h-[190px] rounded-lg resize-none p-3 font-mono text-[12px] leading-relaxed bg-white/30" placeholder="History records will appear here..." readonly></textarea>
+                                <textarea class="field w-full h-full min-h-[160px] sm:min-h-[190px] rounded-lg resize-none p-3 font-mono text-[12px] leading-relaxed bg-white/30" placeholder="History records will appear here..." readonly></textarea>
                             </div>
                         </div>
                     </div>
@@ -651,10 +705,37 @@
     </div>
 
     <!-- Floating Help -->
-    <button class="fixed bottom-6 right-6 z-50 bg-navy/85 backdrop-blur-xl text-white p-3.5 rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110 border border-white/15">
+    <button class="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 bg-navy/85 backdrop-blur-xl text-white p-3.5 rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110 border border-white/15">
         <span class="material-symbols-outlined text-[22px]">support_agent</span>
     </button>
 
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeSidebarBtn');
+
+        function openSidebar() {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        menuBtn?.addEventListener('click', openSidebar);
+        closeBtn?.addEventListener('click', closeSidebar);
+        overlay?.addEventListener('click', closeSidebar);
+
+        // Close sidebar when resizing to desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 992) closeSidebar();
+        });
+    </script>
 </body>
 
 </html>
