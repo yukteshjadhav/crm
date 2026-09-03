@@ -36,12 +36,12 @@
     </div>
     <div class="stat-card">
         <div class="stat-label">Avg. Deal Size</div>
-        <div class="stat-value">$9,120</div>
+        <div class="stat-value">₹9,120</div>
         <div class="stat-change up">↑ 4.2%</div>
     </div>
     <div class="stat-card">
         <div class="stat-label">Pipeline Value</div>
-        <div class="stat-value">$428K</div>
+        <div class="stat-value">₹428K</div>
         <div class="stat-change down">↓ 2.4% vs last month</div>
     </div>
 </div>
@@ -162,7 +162,7 @@
                     <div class="rep-name">Sarah Chen</div>
                     <div class="rep-deals">14 deals closed</div>
                 </div>
-                <div class="rep-value">$128,400</div>
+                <div class="rep-value">₹128,400</div>
             </div>
             <div class="rep-row">
                 <div class="rep-rank silver">2</div>
@@ -171,7 +171,7 @@
                     <div class="rep-name">Mike Torres</div>
                     <div class="rep-deals">11 deals closed</div>
                 </div>
-                <div class="rep-value">$97,200</div>
+                <div class="rep-value">₹97,200</div>
             </div>
             <div class="rep-row">
                 <div class="rep-rank bronze">3</div>
@@ -180,7 +180,7 @@
                     <div class="rep-name">Priya Sharma</div>
                     <div class="rep-deals">9 deals closed</div>
                 </div>
-                <div class="rep-value">$84,600</div>
+                <div class="rep-value">₹84,600</div>
             </div>
             <div class="rep-row">
                 <div class="rep-rank">4</div>
@@ -189,7 +189,7 @@
                     <div class="rep-name">James Wilson</div>
                     <div class="rep-deals">7 deals closed</div>
                 </div>
-                <div class="rep-value">$61,800</div>
+                <div class="rep-value">₹61,800</div>
             </div>
         </div>
     </div>
@@ -243,11 +243,11 @@
             <h2 class="card-title">Monthly Revenue Target</h2>
         </div>
         <div class="card-body">
-            <div class="target-header"><span class="target-label">August 2026</span><span class="target-numbers">$312K / $400K</span></div>
+            <div class="target-header"><span class="target-label">August 2026</span><span class="target-numbers">₹312K / ₹400K</span></div>
             <div class="target-bar-bg">
                 <div class="target-bar" style="width:78%"></div>
             </div>
-            <div class="target-pct">78% achieved • $88K remaining</div>
+            <div class="target-pct">78% achieved • ₹88K remaining</div>
             <div style="margin-top:16px">
                 <div class="target-header"><span class="target-label">Won this month</span><span class="target-numbers">47 deals</span></div>
                 <div class="target-header" style="margin-top:6px"><span class="target-label">Avg. sales cycle</span><span class="target-numbers">18 days</span></div>
@@ -285,14 +285,14 @@
                 <div class="activity-dot" style="background:#f97316"></div>
                 <div>
                     <div class="activity-text">Proposal sent to <strong>David Kim</strong></div>
-                    <div class="activity-time">2 days ago • $56,800</div>
+                    <div class="activity-time">2 days ago • ₹56,800</div>
                 </div>
             </div>
             <div class="activity-item">
                 <div class="activity-dot" style="background:#059669"></div>
                 <div>
                     <div class="activity-text"><strong>Sophia Martinez</strong> deal won</div>
-                    <div class="activity-time">3 days ago • $19,400</div>
+                    <div class="activity-time">3 days ago • ₹19,400</div>
                 </div>
             </div>
         </div>

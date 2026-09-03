@@ -119,6 +119,7 @@
             border-right: 1px solid rgba(255, 255, 255, 0.45);
             box-shadow: 8px 0 40px rgba(0, 0, 0, 0.06);
             transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 50;
         }
 
         .card-glass {
@@ -181,20 +182,22 @@
         }
 
         /* ========== RESPONSIVE ========== */
+        /* Mobile Sidebar Overlay - No heavy blur */
         .sidebar-overlay {
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(4px);
             z-index: 40;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            pointer-events: none;
         }
 
         .sidebar-overlay.active {
             opacity: 1;
             visibility: visible;
+            pointer-events: auto;
         }
 
         @media (max-width: 991.98px) {
@@ -731,9 +734,10 @@
         closeBtn?.addEventListener('click', closeSidebar);
         overlay?.addEventListener('click', closeSidebar);
 
-        // Close sidebar when resizing to desktop
         window.addEventListener('resize', () => {
-            if (window.innerWidth >= 992) closeSidebar();
+            if (window.innerWidth >= 992) {
+                closeSidebar();
+            }
         });
     </script>
 </body>

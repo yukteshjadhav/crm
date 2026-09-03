@@ -19,6 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::get('counselor-panel', function () {
         return view('dashboard1');
     });
+    Route::get('leads', function () {
+        return view('report.lead-report.index');
+    });
     Route::post('/logout', [LoginController::class, 'logout'])
         ->name('logout');
 });
