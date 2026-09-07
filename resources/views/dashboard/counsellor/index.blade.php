@@ -366,27 +366,31 @@
             top: calc(100% + 6px);
             left: 0;
             right: 0;
-            z-index: 100;
+            z-index: 99999;
             max-height: 240px;
             overflow-y: auto;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             border-radius: 12px;
-            box-shadow: 0 12px 40px rgba(31, 38, 135, 0.14);
+            box-shadow: 0 12px 40px rgba(31, 38, 135, 0.16);
             opacity: 0;
             visibility: hidden;
             transform: translateY(-6px) scale(0.98);
             transform-origin: top center;
             transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
             padding: 6px;
+            pointer-events: none;
         }
 
-        .custom-select.open .custom-select-options {
+        /* Works both inside select AND when portaled to body */
+        .custom-select.open .custom-select-options,
+        .custom-select-options.cs-open {
             opacity: 1;
             visibility: visible;
             transform: translateY(0) scale(1);
+            pointer-events: auto;
         }
 
         .custom-select-options::-webkit-scrollbar {
@@ -470,6 +474,293 @@
             min-height: 46px;
             font-size: 14.5px;
             border-radius: 12px;
+        }
+
+        /* Allow dropdown to escape parent cards */
+        .tier-box,
+        .card-glass,
+        .card,
+        .sidebarAddLead,
+        #sidebarAddLead {
+            overflow: visible !important;
+        }
+
+        .custom-select-options {
+            z-index: 9999 !important;
+        }
+
+        .custom-select.open {
+            z-index: 50;
+        }
+
+        .custom-select-options {
+            position: absolute;
+            /* or fixed via JS above */
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            /* keep your existing glass styles */
+        }
+
+        #sidebarAddLead .tier-box {
+            overflow: visible !important;
+        }
+
+        .custom-select-options {
+            z-index: 9999 !important;
+        }
+
+        /* ========== CUSTOM DATE PICKER (DOB) ========== */
+        .custom-datepicker {
+            position: relative;
+            width: 100%;
+            font-family: inherit;
+        }
+
+        .cdp-trigger {
+            width: 100%;
+            min-height: 40px;
+            padding: 0 40px 0 12px;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: #1a2233;
+            cursor: pointer;
+            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+            user-select: none;
+        }
+
+        .cdp-trigger:hover {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(0, 0, 0, 0.12);
+        }
+
+        .custom-datepicker.open .cdp-trigger,
+        .cdp-trigger:focus {
+            outline: none;
+            border-color: #a78bfa;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.14);
+            background: #fff;
+        }
+
+        .cdp-trigger .cdp-label {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .cdp-trigger .cdp-label.is-placeholder {
+            color: #8991a0;
+            font-weight: 400;
+        }
+
+        .cdp-trigger .cdp-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8991a0;
+            font-size: 18px;
+            pointer-events: none;
+        }
+
+        .custom-datepicker.open .cdp-icon {
+            color: #7c3aed;
+        }
+
+        /* Panel */
+        .cdp-panel {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            width: 280px;
+            z-index: 99999;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 14px;
+            box-shadow: 0 12px 40px rgba(31, 38, 135, 0.16);
+            padding: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-6px) scale(0.98);
+            transform-origin: top left;
+            transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+            pointer-events: none;
+        }
+
+        .custom-datepicker.open .cdp-panel,
+        .cdp-panel.cdp-open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .cdp-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            gap: 6px;
+        }
+
+        .cdp-header-title {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #1a2233;
+            flex: 1;
+            text-align: center;
+        }
+
+        .cdp-nav-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(124, 58, 237, 0.08);
+            color: #7c3aed;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+
+        .cdp-nav-btn:hover {
+            background: rgba(124, 58, 237, 0.16);
+        }
+
+        .cdp-nav-btn .material-symbols-outlined {
+            font-size: 18px;
+        }
+
+        .cdp-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            margin-bottom: 4px;
+        }
+
+        .cdp-weekdays span {
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: #8991a0;
+            padding: 4px 0;
+        }
+
+        .cdp-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+
+        .cdp-day {
+            aspect-ratio: 1;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            font-size: 12.5px;
+            font-weight: 500;
+            color: #1a2233;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.12s, color 0.12s;
+        }
+
+        .cdp-day:hover:not(.empty):not(.disabled) {
+            background: rgba(124, 58, 237, 0.1);
+            color: #7c3aed;
+        }
+
+        .cdp-day.selected {
+            background: #7c3aed;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .cdp-day.today:not(.selected) {
+            border: 1.5px solid #7c3aed;
+            color: #7c3aed;
+        }
+
+        .cdp-day.empty {
+            cursor: default;
+        }
+
+        .cdp-day.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .cdp-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .cdp-footer button {
+            border: none;
+            background: none;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #7c3aed;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .cdp-footer button:hover {
+            background: rgba(124, 58, 237, 0.08);
+        }
+
+        .cdp-footer button.cdp-clear {
+            color: #8991a0;
+        }
+
+        .cdp-selects {
+            display: flex;
+            gap: 6px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .cdp-month-select,
+        .cdp-year-select {
+            appearance: none;
+            -webkit-appearance: none;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background: rgba(124, 58, 237, 0.06) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%237c3aed' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E") no-repeat right 6px center;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #1a2233;
+            padding: 5px 22px 5px 8px;
+            cursor: pointer;
+            outline: none;
+            max-width: 110px;
+        }
+
+        .cdp-year-select {
+            max-width: 78px;
+        }
+
+        .cdp-month-select:focus,
+        .cdp-year-select:focus {
+            border-color: #a78bfa;
+            box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.12);
         }
     </style>
 </head>
@@ -923,11 +1214,22 @@
                                     </div>
                                     <div class="flex flex-col gap-1.5">
                                         <label class="font-body text-[12px] font-medium text-ink-muted">Gender</label>
-                                        <select class="field p-2.5 text-[13.5px] rounded-lg">
-                                            <option>Male</option>
-                                            <option>Female</option>
-                                            <option>Other</option>
-                                        </select>
+                                        <div class="custom-select" data-name="gender">
+                                            <div class="custom-select-trigger" tabindex="0">
+                                                <span class="cs-label is-placeholder">Select Gender</span>
+                                                <svg class="cs-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M6 9l6 6 6-6" />
+                                                </svg>
+                                            </div>
+                                            <div class="custom-select-options">
+                                                <div class="custom-select-option" data-value="">Select Gender</div>
+                                                <div class="custom-select-option" data-value="male">Male</div>
+                                                <div class="custom-select-option" data-value="female">Female</div>
+                                                <div class="custom-select-option" data-value="other">Other</div>
+                                            </div>
+                                            <!-- real value for forms -->
+                                            <input type="hidden" name="gender" value="">
+                                        </div>
                                     </div>
                                 </div>
 
@@ -953,7 +1255,39 @@
                                     </div>
                                     <div class="flex flex-col gap-1.5">
                                         <label class="font-body text-[12px] font-medium text-ink-muted">Date of Birth</label>
-                                        <input class="field p-2.5 text-[13.5px] rounded-lg" type="date" />
+                                        <div class="custom-datepicker" data-name="dob">
+                                            <div class="cdp-trigger" tabindex="0">
+                                                <span class="cdp-label is-placeholder">Select date of birth</span>
+                                                <span class="material-symbols-outlined cdp-icon">calendar_month</span>
+                                            </div>
+                                            <div class="cdp-panel">
+                                                <div class="cdp-header">
+                                                    <button type="button" class="cdp-nav-btn cdp-prev" title="Previous month">
+                                                        <span class="material-symbols-outlined">chevron_left</span>
+                                                    </button>
+
+                                                    <div class="cdp-selects">
+                                                        <select class="cdp-month-select"></select>
+                                                        <select class="cdp-year-select"></select>
+                                                    </div>
+
+                                                    <button type="button" class="cdp-nav-btn cdp-next" title="Next month">
+                                                        <span class="material-symbols-outlined">chevron_right</span>
+                                                    </button>
+                                                </div>
+
+                                                <div class="cdp-weekdays">
+                                                    <span>Su</span><span>Mo</span><span>Tu</span><span>We</span>
+                                                    <span>Th</span><span>Fr</span><span>Sa</span>
+                                                </div>
+                                                <div class="cdp-days"></div>
+                                                <div class="cdp-footer">
+                                                    <button type="button" class="cdp-clear">Clear</button>
+                                                    <button type="button" class="cdp-today">Today</button>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="dob" value="">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1464,83 +1798,163 @@
                 renderLeads(filtered);
             });
         })();
+    </script>
+    <script>
         (function() {
+            function getMenu(root) {
+                // Prefer stored reference after portal
+                if (root._csMenu) return root._csMenu;
+                return root.querySelector('.custom-select-options');
+            }
+
             function closeAll(except) {
-                document.querySelectorAll('.custom-select.open').forEach(el => {
-                    if (el !== except) el.classList.remove('open');
+                document.querySelectorAll('.custom-select.open').forEach(function(el) {
+                    if (el === except) return;
+
+                    var menu = getMenu(el);
+                    if (menu) {
+                        menu.classList.remove('cs-open');
+                        // Move menu back into select
+                        if (menu.dataset.portaled === '1') {
+                            el.appendChild(menu);
+                            menu.dataset.portaled = '0';
+                            menu.style.position = '';
+                            menu.style.left = '';
+                            menu.style.top = '';
+                            menu.style.width = '';
+                            menu.style.right = '';
+                            menu.style.zIndex = '';
+                        }
+                    }
+                    el.classList.remove('open');
                 });
             }
 
-            function initCustomSelect(root) {
-                const trigger = root.querySelector('.custom-select-trigger');
-                const label = root.querySelector('.cs-label');
-                const options = root.querySelectorAll('.custom-select-option');
-                const hidden = root.querySelector('input[type="hidden"]');
-                const search = root.querySelector('.custom-select-search input');
+            function placeMenu(root) {
+                var triggerEl = root.querySelector('.custom-select-trigger');
+                var menu = getMenu(root);
+                if (!triggerEl || !menu) return;
 
-                // preselect
-                const selected = root.querySelector('.custom-select-option.selected');
+                // Portal to body (avoids sidebar transform / overflow clipping)
+                if (menu.dataset.portaled !== '1') {
+                    document.body.appendChild(menu);
+                    menu.dataset.portaled = '1';
+                    root._csMenu = menu;
+                }
+
+                var rect = triggerEl.getBoundingClientRect();
+
+                // Make visible first so height is measurable
+                menu.classList.add('cs-open');
+                menu.style.position = 'fixed';
+                menu.style.left = rect.left + 'px';
+                menu.style.width = rect.width + 'px';
+                menu.style.right = 'auto';
+                menu.style.zIndex = '99999';
+
+                var menuHeight = menu.offsetHeight || 200;
+                var spaceBelow = window.innerHeight - rect.bottom;
+                var openUp = spaceBelow < menuHeight + 12;
+
+                if (openUp) {
+                    menu.style.top = Math.max(8, rect.top - menuHeight - 6) + 'px';
+                } else {
+                    menu.style.top = (rect.bottom + 6) + 'px';
+                }
+            }
+
+            function initCustomSelect(root) {
+                var triggerEl = root.querySelector('.custom-select-trigger');
+                var label = root.querySelector('.cs-label');
+                var menu = root.querySelector('.custom-select-options');
+                var hidden = root.querySelector('input[type="hidden"]');
+                var search = root.querySelector('.custom-select-search input');
+
+                if (!triggerEl || !label || !menu) return;
+
+                root._csMenu = menu;
+
+                // Preselect
+                var selected = menu.querySelector('.custom-select-option.selected');
                 if (selected) {
                     label.textContent = selected.textContent.trim();
                     label.classList.remove('is-placeholder');
                     if (hidden) hidden.value = selected.getAttribute('data-value') || '';
                 }
 
-                trigger.addEventListener('click', function(e) {
+                triggerEl.addEventListener('click', function(e) {
+                    e.preventDefault();
                     e.stopPropagation();
-                    const isOpen = root.classList.contains('open');
+
+                    var isOpen = root.classList.contains('open');
                     closeAll();
+
                     if (!isOpen) {
                         root.classList.add('open');
+                        placeMenu(root);
+
                         if (search) {
                             search.value = '';
                             filterOptions('');
-                            setTimeout(() => search.focus(), 50);
+                            setTimeout(function() {
+                                search.focus();
+                            }, 40);
                         }
                     }
                 });
 
-                options.forEach(opt => {
-                    opt.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        options.forEach(o => o.classList.remove('selected'));
-                        opt.classList.add('selected');
+                // Delegation on menu (works after portal to body)
+                menu.addEventListener('click', function(e) {
+                    var opt = e.target.closest('.custom-select-option');
+                    if (!opt || !menu.contains(opt)) return;
 
-                        const value = opt.getAttribute('data-value') || '';
-                        const text = opt.textContent.trim();
+                    e.preventDefault();
+                    e.stopPropagation();
 
-                        label.textContent = text || 'Select';
-                        label.classList.toggle('is-placeholder', !value);
+                    menu.querySelectorAll('.custom-select-option').forEach(function(o) {
+                        o.classList.remove('selected');
+                    });
+                    opt.classList.add('selected');
 
-                        if (hidden) {
-                            hidden.value = value;
-                            hidden.dispatchEvent(new Event('change', {
-                                bubbles: true
-                            }));
-                        }
+                    var value = opt.getAttribute('data-value') || '';
+                    var text = opt.textContent.trim();
 
-                        root.classList.remove('open');
-                        root.dispatchEvent(new CustomEvent('cs:change', {
-                            detail: {
-                                value,
-                                text
-                            },
+                    label.textContent = text || 'Select';
+                    label.classList.toggle('is-placeholder', !value);
+
+                    if (hidden) {
+                        hidden.value = value;
+                        hidden.dispatchEvent(new Event('change', {
                             bubbles: true
                         }));
-                    });
+                    }
+
+                    closeAll();
+
+                    root.dispatchEvent(new CustomEvent('cs:change', {
+                        detail: {
+                            value: value,
+                            text: text
+                        },
+                        bubbles: true
+                    }));
                 });
 
                 function filterOptions(q) {
-                    const term = q.toLowerCase();
-                    options.forEach(opt => {
-                        const match = !term || opt.textContent.toLowerCase().includes(term);
+                    var term = (q || '').toLowerCase();
+                    menu.querySelectorAll('.custom-select-option').forEach(function(opt) {
+                        var match = !term || opt.textContent.toLowerCase().includes(term);
                         opt.style.display = match ? '' : 'none';
                     });
                 }
 
                 if (search) {
-                    search.addEventListener('click', e => e.stopPropagation());
-                    search.addEventListener('input', () => filterOptions(search.value.trim()));
+                    search.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                    });
+                    search.addEventListener('input', function() {
+                        filterOptions(search.value.trim());
+                    });
                 }
             }
 
@@ -1548,9 +1962,19 @@
                 document.querySelectorAll('.custom-select').forEach(initCustomSelect);
             }
 
-            document.addEventListener('click', () => closeAll());
-            document.addEventListener('keydown', e => {
+            document.addEventListener('click', function() {
+                closeAll();
+            });
+            document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') closeAll();
+            });
+
+            window.addEventListener('scroll', function() {
+                document.querySelectorAll('.custom-select.open').forEach(placeMenu);
+            }, true);
+
+            window.addEventListener('resize', function() {
+                document.querySelectorAll('.custom-select.open').forEach(placeMenu);
             });
 
             if (document.readyState === 'loading') {
@@ -1559,11 +1983,337 @@
                 initAll();
             }
 
-            // For dynamically added dropdowns
             window.initCustomSelects = initAll;
         })();
     </script>
 
+    <script>
+        (function() {
+            var MONTHS = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+
+            function pad(n) {
+                return n < 10 ? '0' + n : '' + n;
+            }
+
+            function formatDisplay(y, m, d) {
+                return pad(d) + ' / ' + pad(m + 1) + ' / ' + y;
+            }
+
+            function formatValue(y, m, d) {
+                return y + '-' + pad(m + 1) + '-' + pad(d);
+            }
+
+            function closeAll(except) {
+                document.querySelectorAll('.custom-datepicker.open').forEach(function(el) {
+                    if (el === except) return;
+                    var panel = el._cdpPanel || el.querySelector('.cdp-panel');
+                    if (panel) {
+                        panel.classList.remove('cdp-open');
+                        if (panel.dataset.portaled === '1') {
+                            el.appendChild(panel);
+                            panel.dataset.portaled = '0';
+                            panel.style.position = '';
+                            panel.style.left = '';
+                            panel.style.top = '';
+                            panel.style.width = '';
+                            panel.style.zIndex = '';
+                        }
+                    }
+                    el.classList.remove('open');
+                });
+            }
+
+            function placePanel(root) {
+                var trigger = root.querySelector('.cdp-trigger');
+                var panel = root._cdpPanel || root.querySelector('.cdp-panel');
+                if (!trigger || !panel) return;
+
+                if (panel.dataset.portaled !== '1') {
+                    document.body.appendChild(panel);
+                    panel.dataset.portaled = '1';
+                    root._cdpPanel = panel;
+                }
+
+                panel.classList.add('cdp-open');
+                panel.style.position = 'fixed';
+                panel.style.zIndex = '99999';
+                panel.style.width = '300px';
+
+                var rect = trigger.getBoundingClientRect();
+                var h = panel.offsetHeight || 340;
+                var openUp = (window.innerHeight - rect.bottom) < h + 12;
+
+                panel.style.left = Math.min(rect.left, window.innerWidth - 310) + 'px';
+                panel.style.top = openUp ?
+                    Math.max(8, rect.top - h - 6) + 'px' :
+                    (rect.bottom + 6) + 'px';
+            }
+
+            function initDatepicker(root) {
+                var trigger = root.querySelector('.cdp-trigger');
+                var label = root.querySelector('.cdp-label');
+                var panel = root.querySelector('.cdp-panel');
+                var daysEl = panel.querySelector('.cdp-days');
+                var hidden = root.querySelector('input[type="hidden"]');
+                var prevBtn = panel.querySelector('.cdp-prev');
+                var nextBtn = panel.querySelector('.cdp-next');
+                var clearBtn = panel.querySelector('.cdp-clear');
+                var todayBtn = panel.querySelector('.cdp-today');
+                var monthSelect = panel.querySelector('.cdp-month-select');
+                var yearSelect = panel.querySelector('.cdp-year-select');
+
+                if (!trigger || !panel || !daysEl || !monthSelect || !yearSelect) return;
+
+                root._cdpPanel = panel;
+
+                var now = new Date();
+                var viewYear = now.getFullYear();
+                var viewMonth = now.getMonth();
+                var selected = null;
+
+                var maxDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                var minYear = 1950;
+                var maxYear = now.getFullYear();
+
+                // Fill month select
+                monthSelect.innerHTML = MONTHS.map(function(name, i) {
+                    return '<option value="' + i + '">' + name + '</option>';
+                }).join('');
+
+                // Fill year select (newest first)
+                var yearOptions = [];
+                for (var y = maxYear; y >= minYear; y--) {
+                    yearOptions.push('<option value="' + y + '">' + y + '</option>');
+                }
+                yearSelect.innerHTML = yearOptions.join('');
+
+                // Restore value
+                if (hidden && hidden.value) {
+                    var parts = hidden.value.split('-');
+                    if (parts.length === 3) {
+                        selected = {
+                            y: parseInt(parts[0], 10),
+                            m: parseInt(parts[1], 10) - 1,
+                            d: parseInt(parts[2], 10)
+                        };
+                        viewYear = selected.y;
+                        viewMonth = selected.m;
+                        label.textContent = formatDisplay(selected.y, selected.m, selected.d);
+                        label.classList.remove('is-placeholder');
+                    }
+                }
+
+                function syncSelects() {
+                    monthSelect.value = String(viewMonth);
+                    yearSelect.value = String(viewYear);
+                }
+
+                function render() {
+                    syncSelects();
+                    daysEl.innerHTML = '';
+
+                    var firstDay = new Date(viewYear, viewMonth, 1).getDay();
+                    var daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+                    for (var i = 0; i < firstDay; i++) {
+                        var empty = document.createElement('button');
+                        empty.type = 'button';
+                        empty.className = 'cdp-day empty';
+                        empty.tabIndex = -1;
+                        daysEl.appendChild(empty);
+                    }
+
+                    for (var d = 1; d <= daysInMonth; d++) {
+                        var btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'cdp-day';
+                        btn.textContent = d;
+
+                        var cellDate = new Date(viewYear, viewMonth, d);
+                        if (cellDate > maxDate || viewYear < minYear) {
+                            btn.classList.add('disabled');
+                        }
+
+                        if (now.getFullYear() === viewYear &&
+                            now.getMonth() === viewMonth &&
+                            now.getDate() === d) {
+                            btn.classList.add('today');
+                        }
+
+                        if (selected &&
+                            selected.y === viewYear &&
+                            selected.m === viewMonth &&
+                            selected.d === d) {
+                            btn.classList.add('selected');
+                        }
+
+                        btn.addEventListener('click', (function(day) {
+                            return function(e) {
+                                e.stopPropagation();
+                                selected = {
+                                    y: viewYear,
+                                    m: viewMonth,
+                                    d: day
+                                };
+                                label.textContent = formatDisplay(selected.y, selected.m, selected.d);
+                                label.classList.remove('is-placeholder');
+                                if (hidden) {
+                                    hidden.value = formatValue(selected.y, selected.m, selected.d);
+                                    hidden.dispatchEvent(new Event('change', {
+                                        bubbles: true
+                                    }));
+                                }
+                                closeAll();
+                                root.dispatchEvent(new CustomEvent('cdp:change', {
+                                    detail: {
+                                        value: hidden ? hidden.value : '',
+                                        display: label.textContent
+                                    },
+                                    bubbles: true
+                                }));
+                            };
+                        })(d));
+
+                        daysEl.appendChild(btn);
+                    }
+                }
+
+                trigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var isOpen = root.classList.contains('open');
+                    closeAll();
+                    if (!isOpen) {
+                        root.classList.add('open');
+                        render();
+                        placePanel(root);
+                    }
+                });
+
+                prevBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    viewMonth--;
+                    if (viewMonth < 0) {
+                        viewMonth = 11;
+                        viewYear--;
+                    }
+                    if (viewYear < minYear) {
+                        viewYear = minYear;
+                        viewMonth = 0;
+                    }
+                    render();
+                    placePanel(root);
+                });
+
+                nextBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    viewMonth++;
+                    if (viewMonth > 11) {
+                        viewMonth = 0;
+                        viewYear++;
+                    }
+                    if (viewYear > maxYear) {
+                        viewYear = maxYear;
+                        viewMonth = now.getMonth();
+                    }
+                    render();
+                    placePanel(root);
+                });
+
+                // Month dropdown
+                monthSelect.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+                monthSelect.addEventListener('change', function(e) {
+                    e.stopPropagation();
+                    viewMonth = parseInt(monthSelect.value, 10);
+                    render();
+                    placePanel(root);
+                });
+
+                // Year dropdown
+                yearSelect.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+                yearSelect.addEventListener('change', function(e) {
+                    e.stopPropagation();
+                    viewYear = parseInt(yearSelect.value, 10);
+                    render();
+                    placePanel(root);
+                });
+
+                clearBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    selected = null;
+                    label.textContent = 'Select date of birth';
+                    label.classList.add('is-placeholder');
+                    if (hidden) {
+                        hidden.value = '';
+                        hidden.dispatchEvent(new Event('change', {
+                            bubbles: true
+                        }));
+                    }
+                    closeAll();
+                });
+
+                todayBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    selected = {
+                        y: now.getFullYear(),
+                        m: now.getMonth(),
+                        d: now.getDate()
+                    };
+                    viewYear = selected.y;
+                    viewMonth = selected.m;
+                    label.textContent = formatDisplay(selected.y, selected.m, selected.d);
+                    label.classList.remove('is-placeholder');
+                    if (hidden) {
+                        hidden.value = formatValue(selected.y, selected.m, selected.d);
+                        hidden.dispatchEvent(new Event('change', {
+                            bubbles: true
+                        }));
+                    }
+                    closeAll();
+                });
+
+                panel.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+
+                render();
+            }
+
+            function initAll() {
+                document.querySelectorAll('.custom-datepicker').forEach(initDatepicker);
+            }
+
+            document.addEventListener('click', function() {
+                closeAll();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeAll();
+            });
+
+            window.addEventListener('scroll', function() {
+                document.querySelectorAll('.custom-datepicker.open').forEach(placePanel);
+            }, true);
+
+            window.addEventListener('resize', function() {
+                document.querySelectorAll('.custom-datepicker.open').forEach(placePanel);
+            });
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initAll);
+            } else {
+                initAll();
+            }
+
+            window.initCustomDatepickers = initAll;
+        })();
+    </script>
 </body>
 
 </html>
