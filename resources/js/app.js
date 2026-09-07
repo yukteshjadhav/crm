@@ -21,6 +21,8 @@
 import './bootstrap';
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("asdfasdf");
+    
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
     const menuBtn = document.getElementById('menuBtn');

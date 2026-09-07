@@ -17,7 +17,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/dashboard', DashboardController::class)->names('dashboard');
     Route::get('counselor-panel', function () {
-        return view('dashboard1');
+        return view('dashboard.counsellor.index');
     });
     Route::get('leads', function () {
         return view('report.lead-report.index');
