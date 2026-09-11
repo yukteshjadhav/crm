@@ -187,7 +187,7 @@
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.4);
-            z-index: 40;
+            /* z-index: 40; */
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -195,7 +195,7 @@
         }
 
         .sidebar-overlay.active {
-            opacity: 1;
+            opacity: 0;
             visibility: visible;
             pointer-events: auto;
         }
@@ -762,6 +762,173 @@
             border-color: #a78bfa;
             box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.12);
         }
+
+        /* ========== GLOBAL RESPONSIVE FIXES ========== */
+
+        /* Main form padding */
+        .main-content {
+            min-width: 0;
+            /* prevent flex overflow */
+        }
+
+        /* Floating panel: desktop default already set */
+
+        /* Tablet */
+        @media (max-width: 1199.98px) {
+            #floatingLeadPanel {
+                left: 300px;
+                width: 280px;
+            }
+        }
+
+        /* Mobile + small tablet */
+        @media (max-width: 991.98px) {
+
+            /* Sidebar drawer */
+            .glass-sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 300px !important;
+                max-width: 85vw;
+                transform: translateX(-100%);
+                z-index: 50;
+            }
+
+            .glass-sidebar.open {
+                transform: translateX(0);
+            }
+
+            /* Floating lead list = full-width drawer under nav */
+            #floatingLeadPanel {
+                top: 64px;
+                left: 0 !important;
+                right: 0;
+                width: 100% !important;
+                max-width: 100%;
+                z-index: 45;
+                transform: translateY(12px);
+            }
+
+            #floatingLeadPanel.open {
+                transform: translateY(0);
+            }
+
+            #floatingLeadPanel .float-inner {
+                margin: 10px;
+                height: calc(100% - 20px);
+                border-radius: 16px;
+            }
+
+            /* When both sidebar + float open, float sits above sidebar content */
+            #floatingLeadPanel.open {
+                z-index: 55;
+            }
+
+            /* Nav title truncate */
+            .font-display {
+                max-width: 42vw;
+            }
+
+            /* Form cards stack */
+            .main-content {
+                padding: 12px !important;
+            }
+
+            /* Custom select / datepicker menus full usable width on mobile */
+            .custom-select-options,
+            .cdp-panel {
+                max-width: calc(100vw - 24px) !important;
+            }
+        }
+
+        /* Phones */
+        @media (max-width: 640px) {
+            nav.glass-nav {
+                height: 56px;
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            #floatingLeadPanel {
+                top: 56px;
+            }
+
+            /* Sidebar tabs */
+            #tabDashboard,
+            #tabList {
+                font-size: 12px !important;
+                padding-top: 8px !important;
+                padding-bottom: 8px !important;
+            }
+
+            /* Tier rows more tappable */
+            .tier-row {
+                min-height: 44px;
+                padding-top: 12px !important;
+                padding-bottom: 12px !important;
+            }
+
+            /* Add lead form fields */
+            #sidebarAddLead .field,
+            #sidebarAddLead .custom-select-trigger,
+            .cdp-trigger {
+                min-height: 44px;
+            }
+
+            /* Action buttons full width */
+            #saveAddLeadBtn,
+            #cancelAddLeadBtn {
+                min-height: 42px;
+            }
+
+            /* History / form buttons stack */
+            .card-glass .flex.sm\:flex-row {
+                flex-direction: column;
+            }
+
+            /* Help button smaller */
+            .fixed.bottom-5.right-5 {
+                bottom: 16px;
+                right: 16px;
+                padding: 12px;
+            }
+
+            /* Date picker panel width */
+            .cdp-panel {
+                width: min(300px, calc(100vw - 20px)) !important;
+            }
+        }
+
+        /* Very small phones */
+        @media (max-width: 380px) {
+            .glass-sidebar {
+                width: 100% !important;
+                max-width: 100%;
+            }
+
+            #floatingLeadPanel .float-inner {
+                margin: 8px;
+            }
+        }
+
+        /* Prevent body scroll issues when drawers open */
+        body.drawer-open {
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        /* Safe area for notched phones */
+        @supports (padding: max(0px)) {
+            .glass-sidebar {
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+            }
+
+            #floatingLeadPanel .float-inner {
+                margin-bottom: max(12px, env(safe-area-inset-bottom));
+            }
+        }
     </style>
 </head>
 
@@ -805,6 +972,15 @@
         </div>
 
         <div class="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+
+            <!-- Mobile Add Lead -->
+            <button id="addLeadBtnMobile"
+                class="lg:hidden flex items-center gap-1.5 bg-white/15 hover:bg-white/25 text-white px-2.5 sm:px-3 py-2 rounded-lg transition-colors"
+                title="Add Lead">
+                <span class="material-symbols-outlined text-[20px]">person_add</span>
+                <span class="text-[13px] font-medium hidden xs:inline">Add</span>
+            </button>
+
             <button class="nav-doc-btn flex items-center gap-2 bg-white/10 hover:bg-white/18 px-3 sm:px-4 py-2 rounded-lg text-white font-body text-[13px] font-medium transition-all">
                 <span class="material-symbols-outlined text-[16px]">description</span>
                 <span class="hidden sm:inline">University Document</span>
@@ -853,6 +1029,7 @@
             </div>
 
             <div id="sidebarDashboard" class="flex-1 overflow-y-auto custom-scrollbar px-3 pt-4 pb-4">
+
                 <!-- NEEDS ACTION -->
                 <div class="mb-5">
                     <div class="flex items-center gap-2 mb-2 px-1">
@@ -860,15 +1037,18 @@
                         <span class="eyebrow text-ink-faint">NEEDS ACTION</span>
                     </div>
                     <div class="tier-box">
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5 bg-critical-soft/70 border-b border-white/25">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 bg-critical-soft/70 border-b border-white/25 cursor-pointer"
+                            data-status="Overdue Call Back">
                             <span class="font-body text-[13px] font-medium text-ink">Overdue Call Back</span>
                             <span class="font-mono text-[15px] font-semibold text-critical">01</span>
                         </div>
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5 bg-warning-soft/70 border-b border-white/25">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 bg-warning-soft/70 border-b border-white/25 cursor-pointer"
+                            data-status="Overdue Interested">
                             <span class="font-body text-[13px] font-medium text-ink">Overdue Interested</span>
                             <span class="font-mono text-[15px] font-semibold text-warning">00</span>
                         </div>
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5 bg-warning-soft/70">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 bg-warning-soft/70 cursor-pointer"
+                            data-status="Re-Enquired">
                             <span class="font-body text-[13px] font-medium text-ink">Re-Enquired</span>
                             <span class="font-mono text-[15px] font-semibold text-warning">01</span>
                         </div>
@@ -882,19 +1062,23 @@
                         <span class="eyebrow text-ink-faint">TODAY'S PIPELINE</span>
                     </div>
                     <div class="tier-box">
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5 border-b border-white/25">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 border-b border-white/25 cursor-pointer"
+                            data-status="Prospect Today">
                             <span class="font-body text-[13px] text-ink-muted">Prospect Today</span>
                             <span class="font-mono text-[15px] font-semibold text-ink">00</span>
                         </div>
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5 border-b border-white/25">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 border-b border-white/25 cursor-pointer"
+                            data-status="Interested Today">
                             <span class="font-body text-[13px] text-ink-muted">Interested Today</span>
                             <span class="font-mono text-[15px] font-semibold text-ink">00</span>
                         </div>
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5 border-b border-white/25">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 border-b border-white/25 cursor-pointer"
+                            data-status="Call Back Today">
                             <span class="font-body text-[13px] text-ink-muted">Call Back Today</span>
                             <span class="font-mono text-[15px] font-semibold text-ink">00</span>
                         </div>
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 cursor-pointer"
+                            data-status="Overdue Prospect">
                             <span class="font-body text-[13px] text-ink-muted">Overdue Prospect</span>
                             <span class="font-mono text-[15px] font-semibold text-ink">00</span>
                         </div>
@@ -908,35 +1092,43 @@
                         <span class="eyebrow text-ink-faint">FUNNEL PROGRESS</span>
                     </div>
                     <div class="tier-box">
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5 border-b border-white/25">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 border-b border-white/25 cursor-pointer"
+                            data-status="New Opportunity">
                             <span class="font-body text-[13px] text-ink-muted">New Opportunity</span>
                             <span class="font-mono text-[15px] font-semibold text-ink">00</span>
                         </div>
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5 border-b border-white/25">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 border-b border-white/25 cursor-pointer"
+                            data-status="Cold Calling">
                             <span class="font-body text-[13px] text-ink-muted">Cold Calling</span>
                             <span class="font-mono text-[15px] font-semibold text-ink">00</span>
                         </div>
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5 border-b border-white/25">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 border-b border-white/25 cursor-pointer"
+                            data-status="Recycled">
                             <span class="font-body text-[13px] text-ink-muted">Recycled</span>
                             <span class="font-mono text-[15px] font-semibold text-ink">00</span>
                         </div>
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5 border-b border-white/25">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 border-b border-white/25 cursor-pointer"
+                            data-status="To Be Enrolled">
                             <span class="font-body text-[13px] text-ink-muted">To Be Enrolled</span>
                             <span class="font-mono text-[15px] font-semibold text-ink">00</span>
                         </div>
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5 border-b border-white/25 bg-success-soft/60">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 border-b border-white/25 bg-success-soft/60 cursor-pointer"
+                            data-status="Admission Done">
                             <span class="font-body text-[13px] font-medium text-ink">Admission Done</span>
                             <span class="font-mono text-[15px] font-semibold text-success">00</span>
                         </div>
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5 border-b border-white/25">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 border-b border-white/25 cursor-pointer"
+                            data-status="Provisional">
                             <span class="font-body text-[13px] text-ink-muted">Provisional</span>
                             <span class="font-mono text-[15px] font-semibold text-ink">00</span>
                         </div>
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5 border-b border-white/25">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 border-b border-white/25 cursor-pointer"
+                            data-status="Eligible">
                             <span class="font-body text-[13px] text-ink-muted">Eligible</span>
                             <span class="font-mono text-[15px] font-semibold text-ink">00</span>
                         </div>
-                        <div class="tier-row flex items-center justify-between px-3 py-2.5">
+                        <div class="tier-row status-item flex items-center justify-between px-3 py-2.5 cursor-pointer"
+                            data-status="Rejected">
                             <span class="font-body text-[13px] text-ink-muted">Rejected</span>
                             <span class="font-mono text-[15px] font-semibold text-ink">00</span>
                         </div>
@@ -1529,9 +1721,17 @@
             const closeBtn = document.getElementById('closeSidebarBtn');
 
             function openSidebar() {
-                sidebar?.classList.add('open');
-                overlay?.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                closeFloatingLeads();
+                if (sidebar?.classList.contains('open')) {
+                    console.log('Sidebar is open');
+                    closeSidebar();
+                } else {
+                    console.log('Sidebar is closed');
+                    sidebar?.classList.add('open');
+                    overlay?.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+
             }
 
             function closeSidebar() {
@@ -1558,6 +1758,7 @@
             const summaryBtn = document.getElementById('summaryReportBtn');
             const summaryIcon = document.getElementById('summaryIcon');
             const addLeadBtn = document.getElementById('addLeadBtn');
+            const addLeadBtnMobile = document.getElementById('addLeadBtnMobile');
             const cancelAddLeadBtn = document.getElementById('cancelAddLeadBtn');
             const saveAddLeadBtn = document.getElementById('saveAddLeadBtn');
 
@@ -1627,7 +1828,18 @@
             summaryBtn?.addEventListener('click', showSummary);
             addLeadBtn?.addEventListener('click', showAddLead);
             cancelAddLeadBtn?.addEventListener('click', showDashboard);
+            addLeadBtnMobile?.addEventListener('click', function() {
+                if (window.innerWidth < 992) {
+                    if (sidebar?.classList.contains('open')) {
+                        console.log('Sidebar is open');
+                    } else {
+                        console.log('Sidebar is closed');
+                        openSidebar();
+                    }
+                    showAddLead();
+                }
 
+            });
             saveAddLeadBtn?.addEventListener('click', function() {
                 const name = document.getElementById('addLeadName')?.value.trim() || '';
                 const mobile = document.getElementById('addLeadMobile')?.value.trim() || '';
@@ -1769,13 +1981,36 @@
                 if (floatTitle) floatTitle.textContent = status;
                 if (searchInput) searchInput.value = '';
                 renderLeads(currentLeads);
+
                 panel.classList.add('open');
+
+                // On mobile: close sidebar so list is fully visible
+                if (window.innerWidth < 992) {
+                    sidebar?.classList.remove('open');
+                    // keep a light overlay so user can dismiss
+                    overlay?.classList.add('active');
+                    document.body.classList.add('drawer-open');
+                }
             }
 
             function closeFloatingLeads() {
                 panel?.classList.remove('open');
                 if (searchInput) searchInput.value = '';
+
+                if (window.innerWidth < 992) {
+                    // if sidebar not open, clear overlay
+                    if (!sidebar?.classList.contains('open')) {
+                        overlay?.classList.remove('active');
+                        document.body.classList.remove('drawer-open');
+                    }
+                }
             }
+
+            // Overlay click closes float panel on mobile too
+            overlay?.addEventListener('click', function() {
+                closeFloatingLeads();
+                closeSidebar();
+            });
 
             document.querySelectorAll('.status-item').forEach(el => {
                 el.addEventListener('click', function() {
@@ -2313,7 +2548,59 @@
 
             window.initCustomDatepickers = initAll;
         })();
+        const leadsByStatus = {
+            'Overdue Call Back': [{
+                id: 11,
+                name: 'Meera Joshi',
+                mobile: '98765 88888'
+            }],
+            'Overdue Interested': [],
+            'Re-Enquired': [{
+                id: 10,
+                name: 'Suresh Pillai',
+                mobile: '98765 77777'
+            }],
+            'Prospect Today': [],
+            'Interested Today': [],
+            'Call Back Today': [],
+            'Overdue Prospect': [],
+            'New Opportunity': [{
+                    id: 1,
+                    name: 'Emma Thompson',
+                    mobile: '98765 43210'
+                },
+                {
+                    id: 2,
+                    name: 'Rahul Sharma',
+                    mobile: '91234 56789'
+                }
+            ],
+            'Cold Calling': [{
+                id: 4,
+                name: 'David Kim',
+                mobile: '97654 32109'
+            }],
+            'Recycled': [],
+            'To Be Enrolled': [],
+            'Admission Done': [{
+                id: 12,
+                name: 'Rohan Kapoor',
+                mobile: '98765 55555'
+            }],
+            'Provisional': [],
+            'Eligible': [{
+                id: 13,
+                name: 'Kavita Rao',
+                mobile: '98765 99999'
+            }],
+            'Rejected': [{
+                id: 14,
+                name: 'Vikas Nair',
+                mobile: '98765 66666'
+            }]
+        };
     </script>
+
 </body>
 
 </html>
